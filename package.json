@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/Teokk31/node-express-user-registration#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "nodemon": "^1.19.1",
     "pg": "^7.12.1"
   }
 }
