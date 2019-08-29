@@ -1,0 +1,24 @@
+{
+  "name": "node-express-user-registration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Teokk31/node-express-user-registration.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Teokk31/node-express-user-registration/issues"
+  },
+  "homepage": "https://github.com/Teokk31/node-express-user-registration#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^7.12.1"
+  }
+}
