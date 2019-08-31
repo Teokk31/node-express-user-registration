@@ -17,7 +17,7 @@ app.use(cors());
 
 async function isUserExists(email) {
     return new Promise(resolve => {
-        pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email], (error, results) => {
+        pool.query('SELECT * FROM Users WHERE Email = $1', [email], (error, results) => {
             if (error) {
                 throw true;
             }
@@ -28,7 +28,7 @@ async function isUserExists(email) {
 }
 
 const getUsers = (request, response) => {
-    pool.query('SELECT * FROM "Users"', (error, results) => {
+    pool.query('SELECT * FROM Users', (error, results) => {
         if (error) {
             throw error;
         }
@@ -55,7 +55,7 @@ const createUser = (request, response) => {
                 throw error;
             }
 
-            pool.query('INSERT INTO "Users" ("Name", "Email", "Password") VALUES ($1, $2, $3)', [name, email, encryptedPassword], error => {
+            pool.query('INSERT INTO Users (Name, Email, Password) VALUES ($1, $2, $3)', [name, email, encryptedPassword], error => {
                 if (error) {
                     throw error;
                 }
@@ -76,7 +76,7 @@ const login = (request, response) => {
             return response.status(400).json({ status: 'failed', message: 'Invalid email or password!' });
         }
 
-        pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email], (error, results) => {
+        pool.query('SELECT * FROM Users WHERE Email = $1', [email], (error, results) => {
             if (error) {
                 throw error;
             }
