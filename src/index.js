@@ -23,7 +23,7 @@ app.use('/api/v1', router);
 
 async function isUserExists(email) {
     return new Promise(resolve => {
-        pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email], (error, results) => {
+        pool.query('SELECT * FROM Users WHERE Email = $1', [email], (error, results) => {
             if (error) {
                 throw error;
             }
@@ -35,7 +35,7 @@ async function isUserExists(email) {
 
 async function getUser(email) {
     return new Promise(resolve => {
-        pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email], (error, results) => {
+        pool.query('SELECT * FROM Users WHERE Email = $1', [email], (error, results) => {
             if (error) {
                 throw error;
             }
@@ -46,7 +46,7 @@ async function getUser(email) {
 }
 
 const getUsers = (request, response) => {
-    pool.query('SELECT * FROM "Users"', (error, results) => {
+    pool.query('SELECT * FROM Users', (error, results) => {
         if (error) {
             throw error;
         }
@@ -77,7 +77,7 @@ const createUser = (request, response) => {
                 throw error;
             }
 
-            pool.query('INSERT INTO "Users" ("Name", "Email", "Password") VALUES ($1, $2, $3)', [name, email, encryptedPassword], error => {
+            pool.query('INSERT INTO Users (Name, Email, Password) VALUES ($1, $2, $3)', [name, email, encryptedPassword], error => {
                 if (error) {
                     throw error;
                 }
