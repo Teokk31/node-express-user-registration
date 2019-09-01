@@ -33,6 +33,8 @@ const getUsers = (request, response) => {
             throw error;
         }
 
+        return response.status(200).json(results.rows);
+
         const users = results.rows.map(user => {
             return {
                 id: user.ID,
