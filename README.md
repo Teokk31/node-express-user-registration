@@ -6,7 +6,7 @@ Build simple API using Express server with PostgreSQL with Node.js.
 * [Node.js & npm](https://nodejs.org/en/ "Node.js's Homepage")
 * [PostgreSQL](https://www.postgresql.org/download/ "PostgreSQL's Download page")
 
-# Installation
+# Setup
 1. git clone https://github.com/Teokk31/node-express-user-registration.git
 2. cd node-express-user-registration
 3. npm install
