@@ -19,7 +19,7 @@ async function isUserExists(email) {
     return new Promise(resolve => {
         pool.query('SELECT * FROM Users WHERE Email = $1', [email], (error, results) => {
             if (error) {
-                throw true;
+                throw error;
             }
 
             return resolve(results.rowCount > 0);
@@ -33,11 +33,15 @@ const getUsers = (request, response) => {
             throw error;
         }
 
-        response.status(200).json(results.rows.map(user => {
-            delete user.ID;
-            delete user.Password;
-            return user;
-        }));
+        const users = results.rows.map(user => {
+            return {
+                id: user.ID,
+                name: user.Name,
+                email: user.Email
+            };
+        });
+
+        response.status(200).json(users);
     });
 };
 
@@ -84,7 +88,7 @@ const login = (request, response) => {
             const user = results.rows[0];
             bcrypt.compare(password, user.Password, (error, isValid) => {
                 if (error) {
-                    throw error;
+                    return response.status(400).json({ password: password, encryptedPassword: user.Password });
                 }
 
                 if (!isValid) {
