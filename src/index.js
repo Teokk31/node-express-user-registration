@@ -37,7 +37,7 @@ const getUsers = (request, response) => {
             return {
                 id: user.id,
                 name: user.name,
-                email: user.password
+                email: user.email
             };
         });
 
