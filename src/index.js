@@ -82,7 +82,15 @@ const createUser = (request, response) => {
                     throw error;
                 }
 
-                getUser(email).then(user => response.status(201).json(user));
+                getUser(email).then(user => {
+                    user = {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email
+                    };
+                    
+                    response.status(201).json(user);
+                });
             });
         });
     }, error => {

@@ -10,7 +10,6 @@
         }
     },
     "host": "node-express-user-registration.herokuapp.com",
-    "basePath": "/api/v1",
     "tags": [
         {
             "name": "Users",
@@ -77,7 +76,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/CreatedUsers"
+                            "$ref": "#/definitions/Users"
                         }
                     }
                 }
@@ -160,10 +159,6 @@
             }
         },
         "Users": {
-            "type": "array",
-            "$ref": "#/definitions/User"
-        },
-        "CreatedUsers": {
             "type": "array",
             "$ref": "#/definitions/CreatedUser"
         },
