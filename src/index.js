@@ -33,13 +33,11 @@ const getUsers = (request, response) => {
             throw error;
         }
 
-        return response.status(200).json(results.rows);
-
         const users = results.rows.map(user => {
             return {
-                id: user.ID,
-                name: user.Name,
-                email: user.Email
+                id: user.id,
+                name: user.name,
+                email: user.password
             };
         });
 
@@ -88,7 +86,7 @@ const login = (request, response) => {
             }
 
             const user = results.rows[0];
-            bcrypt.compare(password, user.Password, (error, isValid) => {
+            bcrypt.compare(password, user.password, (error, isValid) => {
                 if (error) {
                     return response.status(400).json({ password: password, encryptedPassword: user.Password });
                 }
