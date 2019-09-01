@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { pool } = require('../config.js');
 const bcrypt = require('bcrypt');
+const router = require('express').Router();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
 
 const app = express();
 
@@ -15,9 +18,12 @@ app.use(
 );
 app.use(cors());
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/v1', router);
+
 async function isUserExists(email) {
     return new Promise(resolve => {
-        pool.query('SELECT * FROM Users WHERE Email = $1', [email], (error, results) => {
+        pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email], (error, results) => {
             if (error) {
                 throw error;
             }
@@ -27,8 +33,20 @@ async function isUserExists(email) {
     });
 }
 
+async function getUser(email) {
+    return new Promise(resolve => {
+        pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email], (error, results) => {
+            if (error) {
+                throw error;
+            }
+
+            return resolve(results.rows[0]);
+        });
+    });
+}
+
 const getUsers = (request, response) => {
-    pool.query('SELECT * FROM Users', (error, results) => {
+    pool.query('SELECT * FROM "Users"', (error, results) => {
         if (error) {
             throw error;
         }
@@ -51,7 +69,7 @@ const createUser = (request, response) => {
 
     isUserExists(email).then(isExists => {
         if (isExists) {
-            return response.status(400).json({ status: 'failed', message: 'User already exists.' });
+            return response.status(400).json({ status: 'failed', message: 'Email is taken.' });
         }
 
         bcrypt.hash(password, saltRounds, (error, encryptedPassword) => {
@@ -59,12 +77,12 @@ const createUser = (request, response) => {
                 throw error;
             }
 
-            pool.query('INSERT INTO Users (Name, Email, Password) VALUES ($1, $2, $3)', [name, email, encryptedPassword], error => {
+            pool.query('INSERT INTO "Users" ("Name", "Email", "Password") VALUES ($1, $2, $3)', [name, email, encryptedPassword], error => {
                 if (error) {
                     throw error;
                 }
 
-                response.status(201).json({ status: 'success', message: 'User added.' });
+                getUser(email).then(user => response.status(201).json(user));
             });
         });
     }, error => {
@@ -77,18 +95,13 @@ const login = (request, response) => {
 
     isUserExists(email).then(isExists => {
         if (!isExists) {
-            return response.status(400).json({ status: 'failed', message: 'Invalid email or password!' });
+            return response.status(401).json({ status: 'failed', message: 'Invalid email or password!' });
         }
 
-        pool.query('SELECT * FROM Users WHERE Email = $1', [email], (error, results) => {
-            if (error) {
-                throw error;
-            }
-
-            const user = results.rows[0];
+        getUser(email).then(user => {
             bcrypt.compare(password, user.password, (error, isValid) => {
                 if (error) {
-                    return response.status(400).json({ password: password, encryptedPassword: user.Password });
+                    throw error;
                 }
 
                 if (!isValid) {
