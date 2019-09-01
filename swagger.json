@@ -129,10 +129,6 @@
                 "password"
             ],
             "properties": {
-                "id": {
-                    "type": "integer",
-                    "uniqueItems": true
-                },
                 "email": {
                     "type": "string",
                     "uniqueItems": true
