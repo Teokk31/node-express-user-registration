@@ -25,7 +25,7 @@ Build simple API using Express server with PostgreSQL with Node.js.
 Refer [Swagger API documentation](https://node-express-user-registration.herokuapp.com/api-docs/ "Swagger API documentation") for API information.
 
 # Testing
-You can test the API at [Swagger API documentation](https://node-express-user-registration.herokuapp.com/api-docs/ "Swagger API documentation").
+Test the API at [Swagger API documentation](https://node-express-user-registration.herokuapp.com/api-docs/ "Swagger API documentation").
 
 # Demo
 [Landing Page](https://node-express-user-registration.herokuapp.com "Heroku Landing Page")
