@@ -78,6 +78,12 @@
                         "schema": {
                             "$ref": "#/definitions/Users"
                         }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/BusinessResponse"
+                        }
                     }
                 }
             }

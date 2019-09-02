@@ -48,7 +48,7 @@ async function getUser(email) {
 const getUsers = (request, response) => {
     pool.query('SELECT * FROM Users', (error, results) => {
         if (error) {
-            throw error;
+            return response.status(400).json({ status: 'failed', message: error.code });
         }
 
         const users = results.rows.map(user => {
@@ -67,6 +67,18 @@ const createUser = (request, response) => {
     const saltRounds = 10;
     const { name, email, password } = request.body;
 
+    if (!name || name.length === 0) {
+        return response.status(400).json({ status: 'failed', message: 'Name is required.' });
+    }
+
+    if (!email || email.length === 0) {
+        return response.status(400).json({ status: 'failed', message: 'Email is required.' });
+    }
+
+    if (!password || password.length === 0) {
+        return response.status(400).json({ status: 'failed', message: 'Password is required' });
+    }
+
     isUserExists(email).then(isExists => {
         if (isExists) {
             return response.status(400).json({ status: 'failed', message: 'Email is taken.' });
@@ -79,7 +91,7 @@ const createUser = (request, response) => {
 
             pool.query('INSERT INTO Users (Name, Email, Password) VALUES ($1, $2, $3)', [name, email, encryptedPassword], error => {
                 if (error) {
-                    throw error;
+                    return response.status(400).json({ status: 'failed', message: error.code });
                 }
 
                 getUser(email).then(user => {
@@ -88,7 +100,7 @@ const createUser = (request, response) => {
                         name: user.name,
                         email: user.email
                     };
-                    
+
                     response.status(201).json(user);
                 });
             });
