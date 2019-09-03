@@ -1,5 +1,5 @@
 # Simple User Registration API using Node Express with PostgreSQL
-Build simple API using Express server with PostgreSQL with Node.js.
+Build simple API using Express server with PostgreSQL and Node.js.
 
 # Requirements
 * [git](https://git-scm.com/downloads/ "git's Download page")
