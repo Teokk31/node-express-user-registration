@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Teokk31/node-express-user-registration#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
